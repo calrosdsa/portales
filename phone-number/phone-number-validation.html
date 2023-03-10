@@ -1,0 +1,300 @@
+<html>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/request.js"></script>
+    <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/ua-parser-min.js"></script>
+
+    <head>
+        <style>
+            input[type=tel] {
+            height: 35px;
+            max-width: 120px;   
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+            letter-spacing: 10px;
+            outline: none;
+            text-align: center;
+            }
+            .content{
+
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                padding-left: 10px;
+                padding-right: 10px;
+                overflow: auto;
+                justify-content: center;
+                align-items: center;
+            }
+            body{
+                margin: 0;
+            }
+                
+        .button {
+            background-color: teal; /* Green */
+            border: none;
+            color: teal;
+            padding: 10px 20px;
+            
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            border-radius: 30px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            min-width: 200px;
+            text-align: center;
+        }
+        a{
+            color: teal; 
+            margin-top: 10px;
+        }
+        .button1 {
+            background-color: white; 
+            color: teal; 
+            border: 2px solid teal;
+        }
+        
+        .button1:hover {
+            border-radius: 30px;
+            background-color: teal;
+            color: white;
+        }
+        span{
+            font-size: 14px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .portal{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+            .lds-roller {
+            display: inline-block;
+            position: absolute;
+            
+            width: 80px;
+            height: 80px;
+            }
+            .lds-roller div {
+            animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            transform-origin: 40px 40px;
+            }
+            .lds-roller div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: teal;
+            margin: -4px 0 0 -4px;
+            }
+            .lds-roller div:nth-child(1) {
+            animation-delay: -0.036s;
+            }
+            .lds-roller div:nth-child(1):after {
+            top: 63px;
+            left: 63px;
+            }
+            .lds-roller div:nth-child(2) {
+            animation-delay: -0.072s;
+            }
+            .lds-roller div:nth-child(2):after {
+            top: 68px;
+            left: 56px;
+            }
+            .lds-roller div:nth-child(3) {
+            animation-delay: -0.108s;
+            }
+            .lds-roller div:nth-child(3):after {
+            top: 71px;
+            left: 48px;
+            }
+            .lds-roller div:nth-child(4) {
+            animation-delay: -0.144s;
+            }
+            .lds-roller div:nth-child(4):after {
+            top: 72px;
+            left: 40px;
+            }
+            .lds-roller div:nth-child(5) {
+            animation-delay: -0.18s;
+            }
+            .lds-roller div:nth-child(5):after {
+            top: 71px;
+            left: 32px;
+            }
+            .lds-roller div:nth-child(6) {
+            animation-delay: -0.216s;
+            }
+            .lds-roller div:nth-child(6):after {
+            top: 68px;
+            left: 24px;
+            }
+            .lds-roller div:nth-child(7) {
+            animation-delay: -0.252s;
+            }
+            .lds-roller div:nth-child(7):after {
+            top: 63px;
+            left: 17px;
+            }
+            .lds-roller div:nth-child(8) {
+            animation-delay: -0.288s;
+            }
+            .lds-roller div:nth-child(8):after {
+            top: 56px;
+            left: 12px;
+            }
+            @keyframes lds-roller {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="content" class="content">
+            <div id="loader" style="display:none" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <form id="formV" class="portal" onsubmit="process(event)" style="text-align: center;">
+                <img style="width: 100px;height: 100px;"
+                 src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/phone-logo.webp" alt="">
+                <span>Por favor, ingrese su código de verificación</span>
+                <div style="position: relative;display: flex;flex-direction: column;align-items: center;width: 100%;">
+                    <input style="margin-bottom: 25px;" id="telNo" type="tel" name="telNo" maxlength="6" required minlength="6">
+                    <span id="error" style="display: none;">*El código de verificación ingresado no es válido</span>
+                </div>
+                <!-- <button onclick="moveCursorToEnd()">Put to end</button> -->
+                <input type="submit" class="button button1" value="Continuar">
+                <a href="#">¿Aún no he recibido mi código de verificación?</a>
+                <a href="#">Cambiar mi numero de telefono</a>
+            </form>
+        </div>
+      
+    </body>
+    <script>
+        function addLoader(){
+            const content  = document.querySelector("#content")
+            const loader  = document.querySelector("#loader")
+            content.style = "filter: brightness(40%);background-color: white;pointer-events: none;"
+            loader.style = ""
+        }
+        function removeLoader(){
+            const content  = document.querySelector("#content")
+            const loader  = document.querySelector("#loader")
+            content.style = ""
+            loader.style = "display:none"
+        }
+
+    const addConnexionWifi = async() => {
+        // console.log('add conexion...')
+        const params = getParams()
+        try{
+            const idF = params.phone || '0';
+            const apMac =  params.apmac || '0';
+            const clientMac = params.mac || '0';
+            const wlan = params.essid;
+            const parser = new UAParser();
+            const result = parser.getResult();
+            console.log(result)
+            const navegador = result.browser.name || '0';
+            const navegadorVersion = result.browser.version || '0';
+            const type = result.device.type || 'Desktop and Laptop';
+            const marcaDispositivo = result.device.vendor || '0';
+            const modeloDispositivo = result.device.model || '0';
+            const sistemaOperativo = result.os.name || '0';
+            const versionSistemaOperativo = result.os.version || '0';
+            // console.log(type,marcaDispositivo,modeloDispositivo,sistemaOperativo,versionSistemaOperativo)
+            
+        // console.log(result);
+        // console.log(wlan,clientMac,apMac)
+            const formData = new FormData();
+            formData.append("key",idF)
+            formData.append("fullName", `user-${apMac}`);
+            formData.append("macAddressHardware", apMac);
+            formData.append("macAddressDispositivo", clientMac);
+            formData.append("ssid", wlan);
+            formData.append("navegador", navegador);
+            formData.append("versionNavegador", navegadorVersion);
+            formData.append("tipoDispositivo", type);
+            formData.append("modeloDispositivo", modeloDispositivo);
+            formData.append("marcaDispositivo", marcaDispositivo);
+            formData.append("sistemaOperativo", sistemaOperativo);
+            formData.append("versionsistemaOperativo", versionSistemaOperativo);
+            formData.append("typeConnection", 1);
+            const response =  await fetch(`${base_url}/apiFB/public/conexionwifi/add`, {
+                method: 'POST',
+                body: formData
+                // }).then(res=>res.json()).then(res=>console.log(res))
+            })
+            // .then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
+            console.log(response)
+            }catch(err){
+            console.log(err)
+            }
+        };
+        function getParams(){
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        return params
+    }
+        // const form = document.querySelector("#formV")   
+        async function process(event) {
+	    event.preventDefault();
+        addLoader()
+    
+        try{
+            const params = getParams()
+            const code = document.querySelector("#telNo")
+            const formData = new FormData()
+            formData.append("code",code.value)
+            formData.append("PhoneNumber","+" + params.phone)
+            if(code.value == "150232"){
+                console.log("valid")
+                sendRequestToAp(params.mac)
+                addConnexionWifi()
+                removeLoader()
+            }else{
+                const errorText = document.querySelector("#error")
+                errorText.style  ="position: absolute;width: 100%;bottom: -5;white-space: nowrap;color: red;font-size: 11px;"
+            }
+            // const verify = fetch("https://portal1a.teclumobility.com/v1/check-otp/",{
+            //     method:"POST",
+            //     body:formData
+            // }).then(res=>{
+            //     console.log(res.status)
+            //     return res.json()}
+            //     )
+            // .then(res=>{
+            //     if(res.status == "approved"){
+            //         // sendRequestToAp(params.mac)
+            //         // addConnexionWifi()
+            //         console.log(res)
+            //     }
+            // })
+            removeLoader()
+        }catch(err){
+            console.log("error.....")
+            removeLoader()
+            console.log(err)
+        }
+    // info.style.display = "";
+    // info.innerHTML = `Phone number in E.164 format: <strong>${phoneNumber}</strong>`;
+    }
+
+    </script>
+</html>

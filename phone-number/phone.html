@@ -1,0 +1,184 @@
+<!doctype html>
+<!--Bhaskar Tiwari-->
+<html>
+	<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Numero Celular</title>
+    <link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/form.css"/>
+	<!-- <linl rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/intlTelInput.scss"/> -->
+	 <link
+     rel="stylesheet"
+     href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/intlTelInput.css"
+   />
+   <script src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/intlTelInput.min.js"></script>
+    <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/email-login.js"></script> -->
+    <script type="text/javascript" src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/common.js" defer=""></script>
+
+
+    <!-- <script defer src="/email-js/"></script> -->
+
+	<script type="text/javascript">
+		window.onload = function(){
+			onLoadContent()
+			const params = getParams();
+                console.log(params.mac)
+                idF=params.mac
+                try{
+                    saveUser(params.mac,params.mac)
+                }catch(err){
+                    console.log(err)
+                }
+		}
+
+
+		const sendRequest = async(number) => {
+			const url = "https://portal1a.teclumobility.com";
+			const formData = new FormData();
+			formData.append('PhoneNumber',number);
+			await fetch(`${url}/v1/login-phone/`,{
+				method:'post',
+				body:formData
+			}).then(res=>{
+				console.log(res)
+				return res.json()
+			}).then(res=>console.log(res))
+			.catch(err=>console.log(err))
+		}
+		// sendRequest("2932913912931")
+	</script>
+	<style>
+		
+		.lds-ring {
+		display: inline-block;
+		position: relative;
+		width: 52px;
+		height: 52px;
+		}
+		.lds-ring div {
+		box-sizing: border-box;
+		display: block;
+		position: absolute;
+		width: 32px;
+		height: 32px;
+		margin: 8px;
+		border: 4px solid #fff;
+		border-radius: 50%;
+		animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+		border-color: #fff transparent transparent transparent;
+		}
+		.lds-ring div:nth-child(1) {
+		animation-delay: -0.45s;
+		}
+		.lds-ring div:nth-child(2) {
+		animation-delay: -0.3s;
+		}
+		.lds-ring div:nth-child(3) {
+		animation-delay: -0.15s;
+		}
+		@keyframes lds-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+		}
+
+	</style>
+	
+</head>
+ <body>
+	 <div class="topBar">
+		 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+		 style="width: 30px;height: 30px;padding: 10px;" onclick="window.history.back()">
+			 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+		   </svg>
+		   
+	 </div>
+	<div class="containerr">
+	
+		<div id="loginContent" style="max-width: 20.4375rem;" >
+	<!-- <p id="descripcion" class="textContent" style=" border: thin solid gray;"
+			>Para solicitar acceso a la red a través de su correo electrónico, deberá completar y enviar una solicitud.
+			 Esta solicitud será revisada y, si es aprobada, el administrador del sitio le otorgará acceso."</p> -->
+		
+			<div style="justify-content: center;margin: auto;display: flex">
+				<form id="login" onsubmit="process(event)" style="display: grid;width: 100vh;">
+				  <input id="phone" type="tel" name="phone" style="height: 40px;width: 100%;"/>
+				  <input type="submit" id="continueButton" style="display: none;">
+				  <label for="continueButton"  class="button noselect">
+					  <p id="buttonText">Continuar</p>
+					  <div id="loader" style="display: none;" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+					</label>
+				</form>
+			</div>
+		</div>
+	</div>
+ </body>
+ <script>
+	function getIp(callback) {
+	fetch('https://ipinfo.io/json?token=501cdb392602c5', { headers: { 'Accept': 'application/json' }})
+	.then((resp) => resp.json())
+	.catch(() => {
+		return {
+		country: 'us',
+		};
+	})
+	.then((resp) => callback(resp.country));
+	}
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+	//   initialCountry: "bo",
+	initialCountry: "auto",
+    geoIpLookup: getIp,
+      utilsScript:
+        "https://teclu-portal.s3.sa-east-1.amazonaws.com/js/utils.js",
+    });
+    const info = document.querySelector(".alert-info");
+
+	async function saveUserWifiC(mac,phoneNumber){
+	try{
+
+		const formData = new FormData();
+		formData.append("idFb",phoneNumber)
+		formData.append("fullName", `user-${mac}`);
+		formData.append("macAddress",mac)
+		// formData.append("mail", email);
+		// formData.append("image", picture);
+		await fetch(`${base_url}/apiFB/public/userwifi/add`, {
+			method: 'POST',
+			body: formData
+			// }).then(res=>res.json()).then(res=>console.log(res))
+		}).then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
+		}catch(err){
+			console.log(err)
+		}
+	}
+		async function process(event) {
+			const loader = document.querySelector("#loader")
+			const buttonText  = document.querySelector("#buttonText")
+			loader.style = ""
+			buttonText.style = "display:none"
+			const params = getParams()
+			event.preventDefault();
+			const phoneNumber = phoneInput.getNumber();
+			try{
+				await sendRequest(phoneNumber)
+				await saveUserWifiC(params.mac,phoneNumber)
+				// console.log(phoneInput)
+				console.log(phoneNumber)
+				loader.style = "display:none"
+			    buttonText.style = ""
+				const link = document.createElement("a");
+				link.href = `https://teclu-portal.s3.sa-east-1.amazonaws.com/phone-number-validation
+				?phone=${phoneNumber}&mac=${params.mac}`
+				link.click();
+			}catch(err){
+				loader.style = "display:none"
+			    buttonText.style = ""
+				console.log(err)
+			}
+		}
+ </script>
+</html>

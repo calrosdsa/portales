@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-widh, initial-scale=1.0">
+    <title>Portal</title>
+    <script>
+      function getAccessWithPhone(){
+        window.location.replace("https://teclu-portal.s3.sa-east-1.amazonaws.com/phone"+window.location.search)
+      }
+    </script>
+  </head>
+  <body>
+    
+    <div class="portalContainer">
+      <div class="portalContent">
+        <div class="header">
+          <div class="logoContent">
+            <img id="logo" height="60px" width="60px" style="object-fit: contain;"
+            src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/default-logo.png" alt="">
+          </div>
+        </div>
+        <img id="image-main" height="230px" width="100%"
+        src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/default-portada.webp" alt=""
+        >
+        <div class="">
+          <div class="formContent">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            style="height: 80px;width: 80px;color: gray;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+          </svg>
+          <div style="text-align: center;">
+      <span>Selecciona el método de conexión que prefieras.</span>
+        </div>
+        <div class="wrapperButton">
+          <a class="button button1 noselect"
+          href="https://www.facebook.com/v15.0/dialog/oauth?client_id=681826853306904&scope=email&redirect_uri=https://teclu-portal.s3.sa-east-1.amazonaws.com/fb-auth&state={st=state123abc,ds=123456789}">
+            Facebook
+          </a>
+          <a class="button button1 noselect"
+          href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78ebsq081mvnd9&redirect_uri=https://teclu-portal.s3.sa-east-1.amazonaws.com/linkedin-auth&state=foobar&scope=r_liteprofile%20r_emailaddress">
+            Linkedin
+          </a>
+          <a class="button button1 noselect"
+          href="https://api.instagram.com/oauth/authorize?client_id=752663406436825&redirect_uri=https://teclu-portal.s3.sa-east-1.amazonaws.com/instagram&scope=user_profile,user_media&response_type=code">
+            Instagram
+          </a>
+          <a onclick="getAccessWithPhone()" rel="keep-params" class="button button1 noselect">
+            Phone Number  
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  </body>
+    <style>
+    .fixedContent {
+      /* filter: blur(8px); */
+      /* -webkit-filter: blur(8px); */
+      position: absolute;z-index: 10;
+      left: 0; text-align: center;right: 0; top: 0;
+      bottom: 0;margin: auto;max-width: 500px;
+      background-color: transparent;
+      border-radius: 10px;
+      height: fit-content;
+    }
+    .secondPage {
+      height: 100vh; width: 100%;position: relative;
+    }
+      .wrapperButton {
+        grid-template-columns: 1fr 1fr;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+  
+    .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+    }
+   
+
+    .buttonClass {
+      border-radius: 20px;
+      font-weight: 600;
+      color: sandybrown;
+      min-width: 200px;
+      text-align: center;
+      font-size: 18px;
+      background-color: bisque;
+      cursor: pointer;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .buttonClass:active{
+      background-color: beige;
+    }
+
+   body {
+      margin:0;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .header {
+        height: 90px;
+
+    }
+
+    
+
+    .portalContainer {
+      display: grid;
+      height: 100vh;
+      max-width: 500px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      margin: auto;
+    }
+    @media screen and (min-width:900px){
+      .portalContainer {
+        display: grid;
+        max-width: 500px;
+        height: 100vh;
+      margin: auto;
+
+      }
+    }
+
+    .portalContent {
+      /* max-width: 600px;position: relative;height: 100vh;margin: auto; */
+      position: relative;height: 100vh;
+      
+    }
+    .logoContent {
+      background-color: white;height: 100%;display: grid;place-content: center;width: 100%;
+    }
+    .formContent {
+      display: grid;gap: 10px; background-color: white;place-items: center;place-content: center;height: 100%;
+    }
+    .button {
+            background-color: teal; /* Green */
+            border: none;
+            color: teal;
+            padding: 10px 20px;
+            
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            border-radius: 30px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            min-width: 150px;
+            text-align: center;
+        }
+        a{
+            color: teal; 
+            margin-top: 10px;
+        }
+        .button1 {
+            background-color: teal; 
+            color: white; 
+            border: 2px solid teal;
+        }
+        
+        .button1:hover {
+            border-radius: 30px;
+            background-color: white;
+            color: teal;
+        }
+
+  </style>
+</html>
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+    <html xmlns="http://www.w3.org/1999/xhtml"> 
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"> 
+        <link rel="stylesheet" href="./auth-styles.css"/> 
+                <title>Captive Portal</title> 
+    </head> 
+    <body> 
+    <div class="splash-container" style="background-color:#cccccc;"> 
+        <div class="splash-banner" style="background-color:#ff9900;"> 
+          <div class="splash-banner-logo-container" style="splash-banner-logo-container"> 
+            <div> 
+                 
+            </div> 
+          </div> 
+        </div> 
+        <div class="splash-body-container"> 
+            <div class="splash-body-left"> 
+                <div id="splash-banner-text" class="splash-block splash-banner-text"> 
+                    Welcome to Guest Network 
+                </div> 
+                <div id="splash-policy" class="splash-block splash-policy-container"> 
+                    Please read terms and conditions before using Guest Network 
+                </div> 
+                <div class="splash-block"> 
+                    <div id="splash-terms" class="splash-terms"> 
+                    This network is not secure, and use is at your own risk 
+                    </div> 
+                </div> 
+            </div> 
+            <div class="splash-body-right"> 
+                <div class="splash-block splash-form"> 
+                    <form method="POST" action="swarm.cgi"> 
+                        <input type="hidden" name="orig_url" value="687474703a2f2f7777772e6d736674636f6e6e656374746573742e636f6d2f7265646972656374" /> 
+                        <input type="hidden" name="opcode" value="cp_ack" /> 
+                        <input type="submit" value="Accept"/> 
+                    </form> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+    </body> 
+    <script> 
+        (function () { 
+            var decode_string = ''; 
+            var decode_map = { 
+                'banner' : 'splash-banner-text', 
+                'terms' : 'splash-terms', 
+                'policy' : 'splash-policy' 
+            } 
+            function unicodeToText(srcText) { 
+                var text = ''; 
+                if(srcText) { 
+                    var arr = srcText.split(';'); 
+                    for ( var i = 0; i < arr.length; i++ ){ 
+                        if (arr[i] !== '') { 
+                            text += String.fromCharCode(parseInt(arr[i], 16)); 
+                        } 
+                    } 
+                } 
+                return text; 
+            } 
+            function $(id) { 
+                return document.getElementById(id); 
+            } 
+            if(decode_string) { 
+                var decode_texts = decode_string.split('/'); 
+                var id, element; 
+                for (var i = 0; i < decode_texts.length; i++) { 
+                    id = decode_map[decode_texts[i]]; 
+                    if (id) { 
+                        element = $(id); 
+                        if (element) { 
+                            element.innerHTML = unicodeToText(element.innerHTML); 
+                        } 
+                    } 
+                } 
+            } 
+        })() 
+    </script> 
+</html> 

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/linkedin-auth.js"></script> -->
+        <script defer src="linkedin-auth.js"></script>
+        <style>
+            body{
+                margin: 0;
+            }
+            .content-body{
+            filter:brightness(70%);
+            background-color: white;
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+        .lds-roller {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .lds-roller div {
+            animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            transform-origin: 40px 40px;
+        }
+        .lds-roller div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: black;
+            margin: -4px 0 0 -4px;
+        }
+        .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+        top: 63px;
+        left: 63px;
+    }
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+        top: 68px;
+        left: 56px;
+    }
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+        top: 71px;
+        left: 48px;
+    }
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+    }
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+        top: 71px;
+        left: 32px;
+    }
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+        top: 68px;
+        left: 24px;
+    }
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+        .lds-roller div:nth-child(7):after {
+            top: 63px;
+            left: 17px;
+        }
+        .lds-roller div:nth-child(8) {
+            animation-delay: -0.288s;
+        }
+        .lds-roller div:nth-child(8):after {
+            top: 56px;
+            left: 12px;
+        }
+        @keyframes lds-roller {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        </style>
+    <script>
+        let access_token;
+        let base_url = "https://teclu.com";
+        
+        function sendRequestToAp (idF) {
+        let form = document.createElement("form");
+        form.style="visibility: hidden;display: none;"
+        let element1 = document.createElement("input"); 
+        let element2 = document.createElement("input");  
+        let element3 = document.createElement("input")
+        let element4 = document.createElement("input"); 
+
+        form.method = "POST";
+        form.action = "https://securelogin.arubanetworks.com/swarm.cgi";   
+        form.id= "login-form"
+        element1.value=idF;
+        element1.type = "text"
+        element1.name="user";
+        form.appendChild(element1);  
+
+        element2.value="27kkrY3cqF";
+        element2.type = "password"
+        element2.required
+        element2.name="password";
+        form.appendChild(element2);
+
+        element3.value="https://www.facebook.com";
+        element3.type = "hidden";
+        element3.name="orig_url";
+        // element3.size = "16";
+        // element3.maxLength = "15";
+        form.appendChild(element3);
+
+        element4.value="cp_auth";
+        element4.type = "hidden";
+        element4.name="opcode";
+        form.appendChild(element4);
+        document.body.appendChild(form);
+        form.submit();
+        }
+        // sendRequestToAp("888994095572580")
+        function getParams(){
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+            return params
+        }
+        const addUser = async(name, email, picture, id) => {
+        // console.log('add user...')
+        const formData = new FormData();
+        formData.append("idFb",id)
+        
+        formData.append("fullName", name);
+        formData.append("mail", email);
+        formData.append("image", picture);
+        await fetch(`${base_url}/apiFB/public/userwifi/add`, {
+            method: 'POST',
+            body: formData
+            // }).then(res=>res.json()).then(res=>console.log(res))
+        }).then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
+        };
+
+        async function saveUser(nombre,id) {
+  // console.log(nombre)
+  // const name = nombre.replace(/ /g, "_").replace(".", "");
+        await fetch(`${base_url}/ApiFb_userexists.php?name=` + nombre + `&id=${id}`).then(response => {
+            return response.text();
+        }).then(data => {
+            console.log("Exite usuario", data);
+        });
+        }
+
+        async function getUserData(){
+            const code = getParams().code
+            const url = window.location.origin + window.location.pathname
+            const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=681826853306904&redirect_uri=${url}&client_secret=5b5b797cfde6c03bcfe94f1772513982&code=${code}`;
+            try {
+                await fetch(facebookUrl).then(response => {
+                    return response.json();
+                }).then(data => {
+                    access_token = data.access_token;
+                });
+                await fetch(`https://graph.facebook.com/v15.0/me?fields=id%2Cname%2Cemail%2Cpicture&access_token=${access_token}`).then(response => {
+                    if (response.ok) {
+                    return response.json();
+                    }
+                    throw new Error("Fallo al traer datos de facebook. Si el error persiste porfavor intente acceder desde otro navegador.");
+                }).then(data => {
+                user = data.name;
+                id = data.id
+                console.log(data)
+                addUser(data.name, data.email, data.picture.data.url,data.id);
+                saveUser(user,id)
+                sendRequestToAp(id)
+            })
+            }catch(err){
+                console.log(err)
+            }
+        }
+        window.onload = function(){
+            getUserData()
+        }
+    </script>
+    </head>
+    <body>
+        <div class="content-body">
+            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+    </body>
+    </html>
